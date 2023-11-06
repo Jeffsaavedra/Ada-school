@@ -1,3 +1,4 @@
+from readchar import readkey, key
 import os
 import time
 
@@ -49,30 +50,37 @@ def main_loop(laberinto_mapa, posicion_inicial, posicion_final):
         # Leer entrada del usuario
         movimiento = input("Presiona una tecla de flecha para mover al jugador (q para salir): ")
 
-        if movimiento == 'q':
+        if movimiento == "q":
             break
-        elif movimiento == 'w':
+        elif movimiento == "w":
             if py - 1 >= 0 and laberinto_matriz[py - 1][px] != '#':
                 laberinto_matriz[py][px] = '.'
+                laberinto_matriz[py - 1][px] = 'P'
                 py -= 1
-        elif movimiento == 's':
+        elif movimiento == "s":
             if py + 1 < len(laberinto_matriz) and laberinto_matriz[py + 1][px] != '#':
                 laberinto_matriz[py][px] = '.'
+                laberinto_matriz[py + 1][px] = 'P'
                 py += 1
-        elif movimiento == 'a':
+        elif movimiento == "a":
             if px - 1 >= 0 and laberinto_matriz[py][px - 1] != '#':
                 laberinto_matriz[py][px] = '.'
+                laberinto_matriz[py][px - 1] = 'P'
                 px -= 1
-        elif movimiento == 'd':
+        elif movimiento == "d":
             if px + 1 < len(laberinto_matriz[0]) and laberinto_matriz[py][px + 1] != '#':
                 laberinto_matriz[py][px] = '.'
+                laberinto_matriz[py][px + 1] = 'P'
                 px += 1
 
     mostrar_laberinto(laberinto_matriz)
 
+    if (px, py) == posicion_final:
+        print("\n¡Felicidades! Has Escapado del laberinto SNAKE.\n")
+
 # Coordenadas iniciales y finales
 posicion_inicial = (0, 0)
 posicion_final = (len(laberinto.split('\n')[0]) - 1, len(laberinto.split('\n')) - 1)
-
+        
 # Iniciar el juego
 main_loop(laberinto, posicion_inicial, posicion_final)
