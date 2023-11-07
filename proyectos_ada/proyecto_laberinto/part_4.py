@@ -43,12 +43,16 @@ def main_loop(laberinto_mapa, posicion_inicial, posicion_final):
     laberinto_matriz = crear_laberinto(laberinto_mapa)
     px, py = posicion_inicial
 
+    laberinto_matriz[py][px] = 'P'
+
     while (px, py) != posicion_final:
         mostrar_laberinto(laberinto_matriz)
         laberinto_matriz[py][px] = 'P'
 
         # Leer entrada del usuario
-        movimiento = input("Presiona una tecla de dirección para mover al jugador (q para salir): ")
+        
+        print("Presiona una tecla de dirección para mover al jugador (q para salir): ")
+        movimiento = readkey()
 
         if movimiento == "q":
             break
