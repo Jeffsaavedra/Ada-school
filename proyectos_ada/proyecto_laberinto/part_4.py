@@ -48,7 +48,7 @@ def main_loop(laberinto_mapa, posicion_inicial, posicion_final):
         laberinto_matriz[py][px] = 'P'
 
         # Leer entrada del usuario
-        movimiento = input("Presiona una tecla de flecha para mover al jugador (q para salir): ")
+        movimiento = input("Presiona una tecla de dirección para mover al jugador (q para salir): ")
 
         if movimiento == "q":
             break
@@ -76,7 +76,7 @@ def main_loop(laberinto_mapa, posicion_inicial, posicion_final):
     mostrar_laberinto(laberinto_matriz)
 
     if (px, py) == posicion_final:
-        print("\n¡Felicidades! Has Escapado del laberinto SNAKE.\n")
+        print("\n¡Felicidades! Has escapado del laberinto SNAKE.\n")
 
 # Coordenadas iniciales y finales
 posicion_inicial = (0, 0)
