@@ -1,41 +1,87 @@
-import random
+from readchar import readkey
 import os
+import random
 
 class Juego:
-    def __init__(self, carpeta_mapas):
-        self.carpeta_mapas = carpeta_mapas
-        self.mapa = ""
-        self.inicio = (0, 0)
-        self.final = (0, 0)
+    def __init__(self, laberinto, posicion_inicial, posicion_final):
+        self.laberinto = laberinto
+        self.posicion_inicial = posicion_inicial
+        self.posicion_final = posicion_final
 
-    def cargar_mapa_aleatorio(self):
-        # Obtener una lista de archivos de mapas en la carpeta
-        archivos_mapas = os.listdir(self.carpeta_mapas)
+    def crear_laberinto(self):
+        filas = self.laberinto
+        matriz = [list(fila) for fila in filas]
+        return matriz
 
-        # Elegir un archivo aleatorio
-        archivo_aleatorio = random.choice(archivos_mapas)
+    def mostrar_laberinto(self, matriz):
+        os.system('cls' if os.name == 'nt' else 'clear')  # Limpia la pantalla
+        for fila in matriz:
+            print("".join(fila))  # Imprime cada fila del laberinto
 
-        # Componer la ruta completa al archivo de mapa
-        ruta_mapa = os.path.join(self.carpeta_mapas, archivo_aleatorio)
+    def main_loop(self):
+        laberinto_matriz = self.crear_laberinto()
+        px, py = self.posicion_inicial
 
-        # Leer y cargar el mapa desde el archivo
-        with open(ruta_mapa, 'r') as archivo:
-            self.mapa = archivo.read()
+        laberinto_matriz[py][px] = 'P'
 
-    def encontrar_inicio_final(self):
-        # Extraer las coordenadas de inicio y final del mapa
-        lineas = self.mapa.strip().split('\n')
-        self.inicio = (0, 0)  # Define las coordenadas de inicio
-        self.final = (len(lineas) - 1, len(lineas[0]) - 1)  # Define las coordenadas finales
+        while (px, py) != self.posicion_final:
+            self.mostrar_laberinto(laberinto_matriz)
+            laberinto_matriz[py][px] = 'P'
 
-    def mostrar_laberinto(self):
-        # Mostrar el laberinto actual
-        for fila in self.mapa:
-            print(fila)
+            # Leer entrada del usuario
+            print("Presiona una tecla de dirección para mover al jugador (q para salir): ")
+            movimiento = readkey()
 
-    def jugar(self):
-        # Lógica principal del juego
-        while True:
-            self.mostrar_laberinto()
-            # Implementa el movimiento del jugador y otras lógicas del juego aquí
-            pass
+            if movimiento == "q":
+                break
+            elif movimiento == "w":
+                if py - 1 >= 0 and laberinto_matriz[py - 1][px] != '#':
+                    laberinto_matriz[py][px] = '.'
+                    laberinto_matriz[py - 1][px] = 'P'
+                    py -= 1
+            elif movimiento == "s":
+                if py + 1 < len(laberinto_matriz) and laberinto_matriz[py + 1][px] != '#':
+                    laberinto_matriz[py][px] = '.'
+                    laberinto_matriz[py + 1][px] = 'P'
+                    py += 1
+            elif movimiento == "a":
+                if px - 1 >= 0 and laberinto_matriz[py][px - 1] != '#':
+                    laberinto_matriz[py][px] = '.'
+                    laberinto_matriz[py][px - 1] = 'P'
+                    px -= 1
+            elif movimiento == "d":
+                if px + 1 < len(laberinto_matriz[0]) and laberinto_matriz[py][px + 1] != '#':
+                    laberinto_matriz[py][px] = '.'
+                    laberinto_matriz[py][px + 1] = 'P'
+                    px += 1
+
+        self.mostrar_laberinto(laberinto_matriz)
+
+        if (px, py) == self.posicion_final:
+            print("\n¡Felicidades! Has escapado del laberinto SNAKE.\n")
+
+
+class JuegoArchivo(Juego):
+    def __init__(self, path_a_mapas):
+        # Obtener la lista de archivos de mapas
+        archivos_mapas = os.listdir(path_a_mapas)
+        # Elegir un archivo al azar
+        nombre_archivo = random.choice(archivos_mapas)
+        path_completo = os.path.join(path_a_mapas, nombre_archivo)
+
+        # Leer el archivo seleccionado
+        with open(path_completo, 'r') as file:
+            contenido = file.read()
+
+        # Extraer las posiciones iniciales y finales del archivo
+        lineas = contenido.split('\n')
+        inicio_x, inicio_y, fin_x, fin_y = map(int, lineas[0].split())
+        posicion_inicial = (inicio_x, inicio_y)
+        posicion_final = (fin_x, fin_y)
+
+        # Llamar al constructor de la clase base
+        super().__init__(lineas[1:22], posicion_inicial, posicion_final)
+
+    # Iniciar el juego desde un archivo
+juego_archivo = JuegoArchivo("mapas")
+juego_archivo.main_loop()
