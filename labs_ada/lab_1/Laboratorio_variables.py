@@ -14,11 +14,7 @@ print(mensaje)
 # Límite de los flotantes
     # Pueden representar números muy grandes o muy pequeños pero con una precisión limitada a un támaño definido de su parte fracional 
 
-print ("Hola, dame un número")
+numero = int(input(f'Ingresa el número de pares que quieres sumar: '))
 
-numero = int(input())
-formula = numero + 1
-
-suma = numero * formula
-
-print ("la suma de los primeros " , numero , " pares es: " , str(suma))
+formula = ((numero + 1)* numero)
+print(f"La suma de los primeros {numero} pares es: {formula} ")
