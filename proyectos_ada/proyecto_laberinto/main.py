@@ -1,7 +1,6 @@
 import os
 import random
 from readchar import readkey, key
-import time
 # Bienvenida al juego
 print("Introduce tu nombre")
 nombre = input()
@@ -15,6 +14,7 @@ print("""
      ########     ###  #####   ###   ###   ###    ####   ######### """)
 
 print("\nPara navegar en el laberinto presiona las siguientes teclas\n\n w arriba\n s abajo\n a izquierda\n d derecha\n")
+
 
 # Mapa del laberinto
 laberinto = """..###################
@@ -57,12 +57,16 @@ def main_loop(laberinto_mapa, posicion_inicial, posicion_final):
     laberinto_matriz = crear_laberinto(laberinto_mapa)
     px, py = posicion_inicial
 
+    laberinto_matriz[py][px] = 'P'
+
     while (px, py) != posicion_final:
         mostrar_laberinto(laberinto_matriz)
         laberinto_matriz[py][px] = 'P'
 
         # Leer entrada del usuario
-        movimiento = input("Presiona una tecla de dirección para mover al jugador (q para salir): ")
+        
+        print("Presiona una tecla de dirección para mover al jugador (q para salir): ")
+        movimiento = readkey()
 
         if movimiento == "q":
             break
@@ -97,8 +101,7 @@ posicion_inicial = (0, 0)
 posicion_final = (len(laberinto.split('\n')[0]) - 1, len(laberinto.split('\n')) - 1)
         
 # Iniciar el juego
-tecla_inicial = input("\nPresiona cualquier tecla para iniciar el juego (q para salir)\n")
-if tecla_inicial == "q":
-    print("Has salido del juego")
-else:
- main_loop(laberinto, posicion_inicial, posicion_final)
+print("presiona una tecla de dirección para iniciar el juego")
+tecla_inicio = readkey()
+if tecla_inicio == "w" or "s" or "a"or "d":
+    main_loop(laberinto, posicion_inicial, posicion_final)
