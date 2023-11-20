@@ -24,12 +24,37 @@ import pandas as pd
 df = pd.DataFrame(data)
 
 # se usa querry para indexar y filtrar por condición y se guarda en una nueva variable
-df1 = df.query("is_dead == 1")
-df2 = df.query("is_dead == 0")
+df1 = df.query("is_dead == True")
+print(df1.shape[0])
+df2 = df.query("is_dead == False")
+print(df2.shape[0])
 
-# se calculan los promedios de edad por dataset y se imprime
+# Se calculan los promedios de edad por dataset y se imprime
 media_df1 = df1["age"].mean()
-print(media_df1)
+print("Promedio de edad de personas fallecidas:", round(media_df1, 2), "años")
 media_df2 = df2["age"].mean()
-print(media_df2)
+print("Promedio de edad de personas no fallecidas:", round(media_df2, 2), "años")
 
+# PARTE 3
+
+# se muestra los tipos de cada columna con dtypes
+print(df.dtypes)
+# se modifican los que deban modificarse en este caso is_dead debe ser boleano y es int
+df['is_dead'] = df['is_dead'].astype(bool)
+# se comprueba que los tipos sean los indicados
+print(df.dtypes)
+print(df["is_dead"].head())
+
+# Agrupa por género y fumador/no fumador
+df_agrupado = df.groupby(['is_male', 'is_smoker']).size().reset_index(name='count')
+
+# Imprime la agrupación para visualización
+print(df_agrupado)
+
+# Filtra los resultados para obtener las cantidades de hombres y mujeres fumadores
+conteo_fumadoras = df_agrupado.loc[(df_agrupado['is_male'] == False) & (df_agrupado['is_smoker'] == True), 'count'].values
+conteo_fumadores = df_agrupado.loc[(df_agrupado['is_male'] == True) & (df_agrupado['is_smoker'] == True), 'count'].values
+
+# Imprime los resultados
+print("Cantidad de mujeres fumadoras:", conteo_fumadoras[0] if len(conteo_fumadoras) > 0 else 0)
+print("Cantidad de hombres fumadores:", conteo_fumadores[0] if len(conteo_fumadores) > 0 else 0)
