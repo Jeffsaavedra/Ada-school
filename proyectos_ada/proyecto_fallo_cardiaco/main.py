@@ -81,3 +81,49 @@ url_datos = "https://huggingface.co/datasets/mstz/heart_failure/raw/main/heart_f
 
 # Llamar a la función para descargar y guardar los datos en un archivo CSV
 descargar_y_guardar_csv(url_datos, "datos_descargados.csv")
+
+# PARTE 5
+
+def limpieza_preparacion_datos(df : pd.DataFrame):
+  
+  # Verificar valores faltantes
+  if df.isnull().any().any():
+    print("Hay valores faltantes en el DataFrame. Realiza la imputación o eliminación según sea necesario.")
+    # Correcciones para valores faltantes.
+    df = df.fillna(df.mean()) #  se le asigna el valor de la media de cada columna a los valores faltantes.
+  else:
+    print("No hay valores faltantes en el DataFrame.")
+    
+  # verificar filas repetidas
+  if df.duplicated().any():
+    print("Hay valores duplicados en el DataFrame. se relizarán las correcciones necesarias")
+    # correcciones necesarias para eliminar duplicados
+    df = df.drop_duplicates() # en este caso no se indica el keep ya que queremos conservar el primero (predeterminado)
+  else:
+    print("No hay valores repetidos en el DataFrame.")  
+
+  # ELiminar valores atipicos
+  Q1 = df.quantile(0.25)  # Hayamos primer cuartil para cada columna
+  Q3 = df.quantile(0.75)  # Hayamos tercer cuartil para cada columna
+
+  IQR = Q3 - Q1   # Hayamos rango intercuartil para cada columna
+
+  limite_min = Q1 - (1.5 * IQR) # Hallamos el límite mínimo de la desviación estandar
+  limite_max = Q3 + (1.5 * IQR) # Hallamos el límite máximo de la desviación estandar
+
+    # Filtramos los valores atípicos
+  df = df[(df >= limite_min) & (df <= limite_max)]
+
+  # Creamos columna para clasificar por edades
+  df['categoria_edad'] = pd.cut(df['age'],
+                                  bins=[-float("inf"), 12, 19, 39, 59, float('inf')],
+                                  labels=['Niño', 'Adolescente', 'Joven adulto', 'Adulto', 'Adulto mayor'],
+                                  right=True
+                                  )
+    # Guardar el resultado como CSV
+  df.to_csv("datos_corregidos.csv", index=False)
+  print("Datos limpios y preparados guardados como 'datos_corregidos.csv'.")
+
+df = pd.read_csv("datos_descargados.csv")
+
+limpieza_preparacion_datos(df)
