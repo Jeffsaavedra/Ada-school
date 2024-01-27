@@ -98,6 +98,7 @@ plt.show()
 
 # ------------>>>>>>>>>>>> PARTE 9  <<<<<<<<<<<<------------
 
+
 # Paso 1: Eliminar la columna objetivo y convertir a array
 X = df.drop(columns=['DEATH_EVENT', 'age']).values
 
