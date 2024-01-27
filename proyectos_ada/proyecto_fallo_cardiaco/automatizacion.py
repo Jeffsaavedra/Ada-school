@@ -54,7 +54,7 @@ print(f"{smoker_counts}\n")
 url = 'https://huggingface.co/datasets/mstz/heart_failure/raw/main/heart_failure_clinical_records_dataset.csv'
 
 
-descargar_y_guardar_csv(url, 'datos5.csv')
+descargar_y_guardar_csv(url, 'datos_procesados.csv')
 
-df = pd.read_csv('datos5.csv')
+df = pd.read_csv('datos_procesados.csv')
 df_cleaned = limpieza_preparacion_datos(df)
