@@ -1,20 +1,25 @@
 
-# PARTE 1  <<<<<<<<<<<<------------
+# ------------>>>>>>>>>>>> PARTE 1  <<<<<<<<<<<<------------
 
 from datasets import load_dataset
 import numpy as np
 
-
+# Descargar el conjunto de datos
 dataset = load_dataset("mstz/heart_failure")
 
+# Acceder a la partición de entrenamiento
 data = dataset["train"]
 
+# Convertir la lista de edades a un arreglo de NumPy
 edades = np.array(data["age"])
 
+# Calcular el promedio de edad
 media_edad = np.mean(edades)
+
+# Imprimir el resultado
 print("El promedio de la edad de los participantes de este estudio es :", media_edad, "años")
 
-# PARTE 2  <<<<<<<<<<<<------------
+# ------------>>>>>>>>>>>> PARTE 2  <<<<<<<<<<<<------------
 
 import pandas as pd
 
@@ -37,7 +42,7 @@ print("Promedio de edad de personas fallecidas:", round(media_df1, 2), "años")
 media_df2 = df2["age"].mean()
 print("Promedio de edad de personas no fallecidas:", round(media_df2, 2), "años")
 
-# PARTE 3  <<<<<<<<<<<<------------
+# ------------>>>>>>>>>>>> PARTE 3  <<<<<<<<<<<<------------
 
 # se muestra los tipos de cada columna con dtypes
 print(df.dtypes)
@@ -61,7 +66,7 @@ conteo_fumadores = df_agrupado.loc[(df_agrupado['is_male'] == True) & (df_agrupa
 print("Cantidad de mujeres fumadoras:", conteo_fumadoras[0] if len(conteo_fumadoras) > 0 else 0)
 print("Cantidad de hombres fumadores:", conteo_fumadores[0] if len(conteo_fumadores) > 0 else 0)
 
-# PARTE 4  <<<<<<<<<<<<------------
+# ------------>>>>>>>>>>>> PARTE 4  <<<<<<<<<<<<------------
 
 import requests
 
@@ -84,7 +89,8 @@ url_datos = "https://huggingface.co/datasets/mstz/heart_failure/raw/main/heart_f
 # Llamar a la función para descargar y guardar los datos en un archivo CSV
 descargar_y_guardar_csv(url_datos, "datos_descargados.csv")
 
-# PARTE 5 <<<<<<<<<<<<------------
+# ------------>>>>>>>>>>>> PARTE 5 <<<<<<<<<<<<------------
+
 
 def limpieza_preparacion_datos(df : pd.DataFrame):
   
