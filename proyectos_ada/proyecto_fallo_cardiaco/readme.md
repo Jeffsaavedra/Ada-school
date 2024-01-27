@@ -5,3 +5,4 @@ Bienvenido al proyecto de procesamiento de datos
 * La parte 6 del proyecto está en el archivo "automatización.py"
 * El código de las partes 7, 8 y 9 están contenidas en "graficos.py"
 * La predicción y el proceso general de la parte 10 se encuentra en "regresion_lineal.py"
+* El código de las partes 11 y 12 se encuentra en "clasificacion.py" y sus implementaciones en "main.py
