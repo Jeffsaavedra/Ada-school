@@ -135,3 +135,16 @@ def limpieza_preparacion_datos(df : pd.DataFrame):
 df = pd.read_csv("datos_descargados.csv")
 
 limpieza_preparacion_datos(df)
+
+# ------------>>>>>>>>>>>> PARTE 11 <<<<<<<<<<<<------------
+
+import pandas as pd
+from clasificacion import graficar_distribucion_clases, particion_estratificada, ajustar_arbol_decision
+
+# Cargar el DataFrame con los datos procesados
+df = pd.read_csv('datos_procesados.csv')
+
+# Utilizar las funciones de clasificación
+graficar_distribucion_clases(df)
+X_train, X_test, y_train, y_test = particion_estratificada(df)
+ajustar_arbol_decision(X_train, X_test, y_train, y_test)
